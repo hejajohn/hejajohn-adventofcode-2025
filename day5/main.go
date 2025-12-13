@@ -40,29 +40,31 @@ func main() {
 		}
 		if scanningRanges {
 			var r1 store.Range = store.CreateRangeFromString(line)
-			var r2 *store.Range = store.GetOverlappingRange(ranges, r1)
+			ranges = append(ranges, r1)
 
-			if r2 != nil {
-				for {
-					r2.Expand(r1)
+			// var r2 *store.Range = store.GetOverlappingRange(ranges, r1)
 
-					for i := range ranges {
-						if ranges[i] == r1 {
-							ranges = append(ranges[:i], ranges[i+1:]...)
-							break
-						}
-					}
+			// if r2 != nil {
+			// 	for {
+			// 		r2.Expand(r1)
 
-					// Continue trying to merge with any other overlapping ranges
-					r1 = *r2
-					r2 = store.GetOverlappingRange(ranges, r1)
-					if r2 == nil {
-						break
-					}
-				}
-			} else {
-				ranges = append(ranges, r1)
-			}
+			// 		for i := range ranges {
+			// 			if ranges[i] == r1 {
+			// 				ranges = append(ranges[:i], ranges[i+1:]...)
+			// 				break
+			// 			}
+			// 		}
+
+			// 		// Continue trying to merge with any other overlapping ranges
+			// 		r1 = *r2
+			// 		r2 = store.GetOverlappingRange(ranges, r1)
+			// 		if r2 == nil {
+			// 			break
+			// 		}
+			// 	}
+			// } else {
+			// 	ranges = append(ranges, r1)
+			// }
 		} else {
 			id := store.CreateIdFromString(line)
 			for _, r := range ranges {
